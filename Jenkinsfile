@@ -6,38 +6,53 @@ pipeline {
     }
 
     stages {
+        stage('Clone Repo') {
+            steps {
+                echo 'Cloning frontend repository...'
+                deleteDir()
+                git(
+                    url: 'https://github.com/MKN-Infotech/petstream-frontend.git',
+                    credentialsId: 'github-petstream-frontend-token',
+                    branch: 'main'
+                )
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
-                echo '📦 Installing dependencies...'
+                echo 'Installing dependencies...'
                 sh 'npm install'
             }
         }
 
         stage('Build Project') {
             steps {
-                echo '🛠️ Building frontend...'
-                sh 'npm run build'
+                echo 'Building the React frontend...'
+                sh '''
+                    export CI=false
+                    npm run build
+                '''
             }
         }
 
         stage('Deploy Build') {
             steps {
-                echo '🚀 Deploying build to server...'
-                sh '''
-                rm -rf ${DEPLOY_DIR}
-                mkdir -p ${DEPLOY_DIR}
-                cp -r build/* ${DEPLOY_DIR}/
-                '''
+                echo "Deploying to $DEPLOY_DIR ..."
+                sh """
+                    rm -rf $DEPLOY_DIR
+                    mkdir -p $DEPLOY_DIR
+                    cp -r build/* $DEPLOY_DIR/
+                """
             }
         }
     }
 
     post {
         success {
-            echo '✅ Frontend deployed successfully.'
+            echo '✅ Frontend deployed successfully!'
         }
         failure {
-            echo '❌ Frontend deployment failed.'
+            echo '❌ Deployment failed. Check logs.'
         }
     }
 }
