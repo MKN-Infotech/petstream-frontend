@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DEPLOY_DIR = "/home/anuj/petstream-deploy/frontend"
+        DEPLOY_DIR = "/home/anuj/petstream-deploy/frontend-build"
     }
 
     stages {
