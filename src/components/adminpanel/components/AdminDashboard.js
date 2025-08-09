@@ -11,7 +11,7 @@ import {
   Briefcase, TrendingUp, Newspaper, Calendar, ChevronDown, Save, Image
 } from 'lucide-react';
 
-const API_BASE = 'https://petstream.in/api';
+const API_BASE = 'https://barkhera.com/api';
 
 const sectionConfig = {
   products: {
