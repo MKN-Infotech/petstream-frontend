@@ -102,7 +102,7 @@ const LatestEvent = () => {
                       )}
                     </p>
                     <img
-                      src={`http://localhost:5000${events[0].file}`}
+                      src={`https://petstream.in${events[0].file}`}
                       alt=""
                       className="w-full h-80 object-cover rounded-md"
                     />
@@ -135,7 +135,7 @@ const LatestEvent = () => {
                       )}
                     </p>
                     <img
-                      src={`http://localhost:5000${events[1].file}`}
+                      src={`https://petstream.in${events[1].file}`}
                       alt=""
                       className="w-full h-48 object-cover rounded-md"
                     />
@@ -155,7 +155,7 @@ const LatestEvent = () => {
                       className="border rounded-md shadow hover:shadow-lg transition p-4 bg-white"
                     >
                       <img
-                        src={`http://localhost:5000${event.file}`}
+                        src={`https://petstream.in${event.file}`}
                         alt=""
                         className="w-full h-48 object-cover rounded-md mb-3"
                       />
