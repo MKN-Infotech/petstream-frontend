@@ -79,41 +79,41 @@ const IndustryDetails = () => {
 
 
 <main className="pb-16 flex-grow bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          {industryItems.length === 0 ? (
-            <div className="text-center py-16">
-              <p className="text-gray-500 text-lg">No industry information available at the moment.</p>
-            </div>
-          ) : (
-            <>
-              {/* First 2 Items */}
-              <div className="flex flex-col lg:flex-row gap-8 mb-16">
-                {industryItems && (
-                  <article key={industryItems.id} className="lg:w-2/3 border-b pb-10">
-                    <Link to={`/newsroom/industry/details/${industryItems.id}`}>
-                      <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">
-                        {industryItems.title || 'Untitled Article'}
-                      </h2>
-                    </Link>
-                    <p className="text-gray-600 mb-4">
-                      {industryItems.description}
-                    </p>
-                    <img
-                      src={`http://localhost:5000${industryItems.file}`}
-                      alt={industryItems.title}
-                      className="w-full h-80 object-cover rounded-md"
-                    />
-                  </article>
-                )}
-              </div>
-
-
-            </>
+  <div className="max-w-7xl mx-auto px-4">
+    {industryItems.length === 0 ? (
+      <div className="text-center py-16">
+        <p className="text-gray-500 text-lg">
+          No industry information available at the moment.
+        </p>
+      </div>
+    ) : (
+      <>
+        {/* Centered Layout */}
+        <div className="flex flex-col items-center gap-8 mb-16">
+          {industryItems && (
+            <article
+              key={industryItems.id}
+              className="w-full lg:w-2/3 flex flex-col items-center text-center border-b pb-10"
+            >
+              <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                {industryItems.title || "Untitled Article"}
+              </h2>
+              <p className="text-gray-600 mb-4 max-w-2xl">
+                {industryItems.description}
+              </p>
+              <img
+                src={`http://localhost:5000${industryItems.file}`}
+                alt=""
+                className="w-full max-w-3xl h-80 object-cover rounded-md"
+              />
+            </article>
           )}
-
-          
         </div>
-      </main>
+      </>
+    )}
+  </div>
+</main>
+
 
 
       <ContactCTA />
