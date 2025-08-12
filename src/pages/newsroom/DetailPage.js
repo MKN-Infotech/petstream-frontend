@@ -75,44 +75,35 @@ const DetailPage = () => {
         </div>
       </section>
 
-      <main className="py-16 flex-grow bg-white">
+<main className="py-16 flex-grow bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          {news.length === 0 ? (
-            <div className="text-center py-16 text-gray-500 text-lg">No news available at the moment.</div>
+          {!news ? (
+            <div className="text-center py-16 text-gray-500 text-lg">News article not found.</div>
           ) : (
-            <>
-              {/* First and Second News Items */}
-              <div className="flex flex-col lg:flex-row gap-8 mb-16">
-                {/* First News */}
-                
-                {news && (
-                  <article key={news.id} className="lg:w-2/3 border-b pb-10">
-                    <h2 className="text-3xl font-bold text-gray-800 mb-2">{news.headline || 'Untitled News'}   </h2>
-                    <div className="text-sm text-gray-500 mb-2">
-                      {new Date(news.published_date).toLocaleDateString()}
-                      {news.author && <> • By {news.author}</>}
-                    </div>
-                    {news.category && (
-                      <div className={`inline-block mb-4 px-3 py-1 text-xs font-semibold rounded-full ${getCategoryColor(news.category)}`}>
-                        {news.category}
-                      </div>
-                    )}
-                    <p className="text-gray-700">
-                      {news.content
-                        }
-                    </p>
-                    <br></br>
-                    <img src={`http://localhost:5000${news.file}`} alt="News" className="w-full h-80 object-cover rounded-md mb-4" />
-
-                  </article>
-                )}
-
-              
+            <article key={news.id} className="lg:w-2/3 border-b pb-10 mx-auto">
+              <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                {news.headline || 'Untitled News'}
+              </h1>
+              <div className="text-sm text-gray-500 mb-2">
+                {new Date(news.published_date).toLocaleDateString()}
+                {news.author && <> • By {news.author}</>}
               </div>
-
-
-             
-            </>
+              {news.category && (
+                <div className={`inline-block mb-4 px-3 py-1 text-xs font-semibold rounded-full ${getCategoryColor(news.category)}`}>
+                  {news.category}
+                </div>
+              )}
+              <p className="text-gray-700 mb-4">
+                {news.content}
+              </p>
+              {news.file && (
+                <img
+                  src={`http://localhost:5000${news.file}`}
+                  alt=""
+                  className="w-full h-80 object-cover rounded-md mb-4"
+                />
+              )}
+            </article>
           )}
         </div>
       </main>
