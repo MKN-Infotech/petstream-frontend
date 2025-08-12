@@ -87,7 +87,7 @@ const ProductsUpdate = () => {
                 {products[0] && (
                   <article key={products[0].id} className="lg:w-2/3 border-b pb-10">
                     <Link to={`/newsroom/products/${products[0].id}`}>
-                    <h2 className="text-3xl font-bold text-gray-800 leading-snug mb-3">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">
                       {products[0].title || 'Untitled Product'}  
                     </h2>
                     </Link>
@@ -106,8 +106,8 @@ const ProductsUpdate = () => {
                       )}
                     </p>
                     <img
-                      src={`https://petstream.in${products[0].file}`}
-                      alt="Product"
+                      src={`http://localhost:5000${products[0].file}`}
+                      alt=""
                       className="w-full h-80 object-cover rounded-md"
                     />
                   </article>
@@ -117,7 +117,7 @@ const ProductsUpdate = () => {
                 {products[1] && (
                   <article key={products[1].id} className="lg:w-1/3 bg-white border shadow p-4 rounded-md">
                      <Link to={`/newsroom/products/${products[1].id}`}>
-                    <h2 className="text-xl font-bold text-gray-800 leading-snug mb-2">
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">
                       {products[1].title || 'Untitled Product'}
                     </h2>
                     </Link>
@@ -135,8 +135,8 @@ const ProductsUpdate = () => {
                       )}
                     </p>
                     <img
-                      src={`https://petstream.in${products[1].file}`}
-                      alt="Product"
+                      src={`http://localhost:5000${products[1].file}`}
+                      alt=""
                       className="w-full h-48 object-cover rounded-md"
                     />
                   </article>
@@ -161,12 +161,12 @@ const ProductsUpdate = () => {
                       className="border rounded-md shadow hover:shadow-lg transition p-4 bg-white"
                     >
                       <img
-                        src={`https://petstream.in${product.file}`}
-                        alt="Product"
+                        src={`http://localhost:5000${product.file}`}
+                        alt=""
                         className="w-full h-48 object-cover rounded-md mb-3"
                       />
                       <Link to={`/newsroom/products/${product.id}`}>
-                      <h2 className="text-xl font-semibold text-gray-800 mb-1">
+                      <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">
                         {product.title || 'Untitled Product'}
                       </h2>
                       </Link>
