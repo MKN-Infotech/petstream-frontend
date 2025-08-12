@@ -102,7 +102,7 @@ const IndustryDetails = () => {
                 {industryItems.description}
               </p>
               <img
-                src={`http://localhost:5000${industryItems.file}`}
+                src={`https://petstream.in${industryItems.file}`}
                 alt=""
                 className="w-full max-w-3xl h-80 object-cover rounded-md"
               />
