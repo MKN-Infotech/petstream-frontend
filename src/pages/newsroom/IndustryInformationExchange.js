@@ -105,7 +105,7 @@ const IndustryInformation = () => {
                       )}
                     </p>
                     <img
-                      src={`http://localhost:5000${industryItems[0].file}`}
+                      src={`https://petstream.in${industryItems[0].file}`}
                       alt=""
                       className="w-full h-80 object-cover rounded-md"
                     />
@@ -133,7 +133,7 @@ const IndustryInformation = () => {
                       )}
                     </p>
                     <img
-                      src={`http://localhost:5000${industryItems[1].file}`}
+                      src={`https://petstream.in${industryItems[1].file}`}
                       alt=""
                       className="w-full h-48 object-cover rounded-md"
                     />
@@ -155,7 +155,7 @@ const IndustryInformation = () => {
                   return (
                     <article key={item.id} className="border rounded-md shadow hover:shadow-lg transition p-4 bg-white">
                       <img
-                        src={`http://localhost:5000${item.file}`}
+                        src={`https://petstream.in${item.file}`}
                         alt=""
                         className="w-full h-48 object-cover rounded-md mb-3"
                       />
