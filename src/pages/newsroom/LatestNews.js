@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../api';
 import newsroom from '../../assets/images/newsroom/news.png';
 import ContactCTA from '../../components/home/ContactCTA';
+import { Link } from "react-router-dom";
 
 const LatestNews = () => {
   const [news, setNews] = useState([]);
@@ -78,10 +79,14 @@ const LatestNews = () => {
             <div className="text-center py-16 text-gray-500 text-lg">No news available at the moment.</div>
           ) : (
             <>
+              {/* First and Second News Items */}
               <div className="flex flex-col lg:flex-row gap-8 mb-16">
+                {/* First News */}
                 {news[0] && (
                   <article key={news[0].id} className="lg:w-2/3 border-b pb-10">
-                    <h2 className="text-3xl font-bold text-gray-800 mb-2">{news[0].headline || 'Untitled News'}</h2>
+                    <Link to={`/newsroom/news/detail/${news[0].id}`}>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2">{news[0].headline || 'Untitled News'}   </h2>
+                    </Link>
                     <div className="text-sm text-gray-500 mb-2">
                       {new Date(news[0].published_date).toLocaleDateString()}
                       {news[0].author && <> • By {news[0].author}</>}
@@ -104,14 +109,18 @@ const LatestNews = () => {
                         </button>
                       )}
                     </p>
-                    <br />
-                    <img src={news[0].file} alt="News" className="w-full h-80 object-cover rounded-md mb-4" />
+                    <br></br>
+                    <img src={`http://localhost:5000${news[0].file}`} alt="News" className="w-full h-80 object-cover rounded-md mb-4" />
+
                   </article>
                 )}
 
+                {/* Second News */}
                 {news[1] && (
                   <article key={news[1].id} className="lg:w-1/3 bg-white border shadow p-4 rounded-md">
+                    <Link to={`/newsroom/news/detail/${news[1].id}`}>
                     <h2 className="text-xl font-bold text-gray-800 mb-2">{news[1].headline || 'Untitled News'}</h2>
+                    </Link>
                     <div className="text-sm text-gray-500 mb-2">
                       {new Date(news[1].published_date).toLocaleDateString()}
                     </div>
@@ -128,12 +137,14 @@ const LatestNews = () => {
                         </button>
                       )}
                     </p>
-                    <br />
-                    <img src={news[1].file} alt="News" className="w-full h-48 object-cover rounded-md mb-3" />
+                    <br></br>
+                    <img src={`http://localhost:5000${news[1].file}`} alt="News" className="w-full h-48 object-cover rounded-md mb-3" />
+
                   </article>
                 )}
               </div>
 
+              {/* Remaining News in Grid */}
               <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {news.slice(2, visibleCount).map((item) => {
                   const formattedDate = new Date(item.published_date).toLocaleDateString();
@@ -142,8 +153,10 @@ const LatestNews = () => {
 
                   return (
                     <article key={item.id} className="border rounded-md shadow hover:shadow-lg transition p-4 bg-white">
-                      <img src={item.file} alt="News" className="w-full h-48 object-cover rounded-md mb-3" />
+                      <img src={`http://localhost:5000${item.file}`} alt="News" className="w-full h-48 object-cover rounded-md mb-3" />
+                      <Link to={`/newsroom/news/detail/${item.id}`}>
                       <h2 className="text-xl font-semibold text-gray-800 mb-1">{item.headline || 'Untitled News'}</h2>
+                      </Link>
                       <p className="text-gray-500 text-sm mb-2">{formattedDate}</p>
                       {item.category && (
                         <div className={`inline-block mb-2 px-3 py-1 text-xs font-semibold rounded-full ${getCategoryColor(item.category)}`}>
@@ -168,11 +181,12 @@ const LatestNews = () => {
                 })}
               </div>
 
+              {/* Load More Button */}
               {visibleCount < news.length && (
                 <div className="text-center mt-10">
                   <button
                     onClick={handleLoadMore}
-                    className="bg-blue-600 text-white py-3 px-8 rounded-full hover:bg-blue-700 focus:outline-none"
+                className="bg-blue-600 text-white py-3 px-8 rounded-full hover:bg-blue-700 focus:outline-none"
                   >
                     Load More
                   </button>
@@ -189,4 +203,3 @@ const LatestNews = () => {
 };
 
 export default LatestNews;
-
