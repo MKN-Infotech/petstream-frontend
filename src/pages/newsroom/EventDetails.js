@@ -68,36 +68,43 @@ const EventDetails = () => {
         </div>
       </section>
 
+
       {/* Main Content */}
-      <main className="pb-16 flex-grow bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          {!eventItem ? (
-            <div className="text-center py-16">
-              <p className="text-gray-500 text-lg">Event not found.</p>
-            </div>
-          ) : (
-            <article key={eventItem.id} className="border-b pb-10">
-              <h2 className="text-3xl font-bold text-gray-800 mb-2">
-                {eventItem.title || 'Untitled Event'}
-              </h2>
-              <p className="text-sm text-gray-500 mb-2">
-                {formatDate(eventItem.event_date)} &nbsp; | &nbsp;
-                <span className="text-green-600 font-medium capitalize">{eventItem.status}</span>
-              </p>
-              <p className="text-gray-600 mb-4">
-                {eventItem.content}
-              </p>
-              {eventItem.file && (
-                <img
-                  src={`http://localhost:5000${eventItem.file}`}
-                  alt={eventItem.title}
-                  className="w-full h-80 object-cover rounded-md"
-                />
-              )}
-            </article>
-          )}
-        </div>
-      </main>
+<main className="pb-16 flex-grow bg-white">
+  <div className="max-w-7xl mx-auto px-4">
+    {!eventItem ? (
+      <div className="text-center py-16">
+        <p className="text-gray-500 text-lg">Event not found.</p>
+      </div>
+    ) : (
+      <article
+        key={eventItem.id}
+        className="w-full lg:w-2/3 mx-auto flex flex-col items-center text-center border-b pb-10"
+      >
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">
+          {eventItem.title || "Untitled Event"}
+        </h1>
+        <p className="text-sm text-gray-500 mb-2">
+          {formatDate(eventItem.event_date)} &nbsp; | &nbsp;
+          <span className="text-green-600 font-medium capitalize">
+            {eventItem.status}
+          </span>
+        </p>
+        <p className="text-gray-600 mb-4 max-w-2xl">
+          {eventItem.content}
+        </p>
+        {eventItem.file && (
+          <img
+            src={`http://localhost:5000${eventItem.file}`}
+            alt=""
+            className="w-full max-w-3xl h-80 object-cover rounded-md"
+          />
+        )}
+      </article>
+    )}
+  </div>
+</main>
+
 
       {/* CTA */}
       <ContactCTA />
