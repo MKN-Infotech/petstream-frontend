@@ -106,7 +106,7 @@ const ProductsUpdate = () => {
                       )}
                     </p>
                     <img
-                      src={`http://localhost:5000${products[0].file}`}
+                      src={`https://petstream.in${products[0].file}`}
                       alt="Product"
                       className="w-full h-80 object-cover rounded-md"
                     />
@@ -135,7 +135,7 @@ const ProductsUpdate = () => {
                       )}
                     </p>
                     <img
-                      src={`http://localhost:5000${products[1].file}`}
+                      src={`https://petstream.in${products[1].file}`}
                       alt="Product"
                       className="w-full h-48 object-cover rounded-md"
                     />
@@ -161,7 +161,7 @@ const ProductsUpdate = () => {
                       className="border rounded-md shadow hover:shadow-lg transition p-4 bg-white"
                     >
                       <img
-                        src={`http://localhost:5000${product.file}`}
+                        src={`https://petstream.in${product.file}`}
                         alt="Product"
                         className="w-full h-48 object-cover rounded-md mb-3"
                       />
