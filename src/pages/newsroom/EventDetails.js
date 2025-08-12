@@ -95,7 +95,7 @@ const EventDetails = () => {
         </p>
         {eventItem.file && (
           <img
-            src={`http://localhost:5000${eventItem.file}`}
+            src={`https://petstream.in${eventItem.file}`}
             alt=""
             className="w-full max-w-3xl h-80 object-cover rounded-md"
           />
