@@ -101,7 +101,7 @@ const ProductDetail = () => {
                 {products.description}
               </p>
               <img
-                src={`http://localhost:5000${products.file}`}
+                src={`https://petstream.in${products.file}`}
                 alt=""
                 className="w-full max-w-3xl h-80 object-cover rounded-md"
               />
