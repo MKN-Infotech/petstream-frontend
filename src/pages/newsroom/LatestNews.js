@@ -37,6 +37,14 @@ const LatestNews = () => {
     switch (category?.toLowerCase()) {
       case 'breaking':
         return 'bg-red-100 text-red-800';
+      case 'case study':
+        return 'bg-red-100 text-red-800 bg-orange-500 text-orange-600 bg-orange-50 border-orange-200';
+      case 'company news':
+        return 'bg-green-100 text-green-800 bg-green-500 text-green-600 bg-green-50 border-green-200';
+      case 'product focus':
+        return 'bg-purple-100 text-purple-800 bg-purple-500 text-purple-600 bg-purple-50 border-purple-200';
+        
+        
       case 'announcement':
         return 'bg-blue-100 text-blue-800';
       case 'press release':
@@ -84,18 +92,19 @@ const LatestNews = () => {
                 {/* First News */}
                 {news[0] && (
                   <article key={news[0].id} className="lg:w-2/3 border-b pb-10">
-                    <Link to={`/newsroom/news/detail/${news[0].id}`}>
-                    <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">{news[0].headline || 'Untitled News'}   </h2>
-                    </Link>
-                    <div className="text-sm text-gray-500 mb-2">
-                      {new Date(news[0].published_date).toLocaleDateString()}
-                      {news[0].author && <> • By {news[0].author}</>}
-                    </div>
                     {news[0].category && (
                       <div className={`inline-block mb-4 px-3 py-1 text-xs font-semibold rounded-full ${getCategoryColor(news[0].category)}`}>
                         {news[0].category}
                       </div>
                     )}
+                    <Link to={`/newsroom/news/detail/${news[0].id}`}>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">{news[0].headline || 'Untitled News'}   </h2>
+                    </Link>
+                    <div className="text-sm text-gray-500 mb-2">
+                      {new Date(news[0].published_date).toLocaleDateString()}
+                      {news[0].author && <> • By {news[0].author}</>}
+                    </div>
+                    
                     <p className="text-gray-700">
                       {expandedItems.includes(news[0].id)
                         ? news[0].content
@@ -109,17 +118,45 @@ const LatestNews = () => {
                         </button>
                       )}
                     </p>
-                    <br></br>
-                    <img src={`https://petstream.in${news[0].file}`} alt="" className="w-full h-80 object-cover rounded-md mb-4" />
+                     {(news[0].tag) && (
+  <div className="mb-4">
+    <span className="text-base text-gray-700 font-semibold underline">Tags  :</span>
+    <div className="inline-flex flex-wrap gap-3 mt-2">
+      {news[0].tag && news[0].tag.split(',').map((tags, index) => (
+        <span
+          key={index}
+          className="text-lg text-gray-700 font-medium underline"
+        >
+          {tags.trim()}
+        </span>
+      ))}
+    </div>
+  </div>
+)}
 
+
+
+                    <br></br>
+                    {news?.[0]?.file?.length > 0 && (
+  <img
+    src={`https://petstream.in${JSON.parse(news[0].file)[0]}`}
+    alt="News"
+    className="w-full h-80 object-cover rounded-md mb-4 transition-transform duration-300 ease-in-out transform hover:scale-105"
+  />
+)}
                   </article>
                 )}
 
                 {/* Second News */}
                 {news[1] && (
                   <article key={news[1].id} className="lg:w-1/3 bg-white border shadow p-4 rounded-md">
+                     {news[0].category && (
+                      <div className={`inline-block mb-4 px-3 py-1 text-xs font-semibold rounded-full ${getCategoryColor(news[1].category)}`}>
+                        {news[1].category}
+                      </div>
+                    )}
                     <Link to={`/newsroom/news/detail/${news[1].id}`}>
-                    <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">{news[1].headline || 'Untitled News'}</h2>
+                    <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">{news[1].headline || 'Untitled News'}</h2>
                     </Link>
                     <div className="text-sm text-gray-500 mb-2">
                       {new Date(news[1].published_date).toLocaleDateString()}
@@ -137,9 +174,29 @@ const LatestNews = () => {
                         </button>
                       )}
                     </p>
+                    {(news[1].tag) && (
+  <div className="mb-4">
+    <span className="text-base text-gray-700 font-semibold underline">Tags  :</span>
+    <div className="inline-flex flex-wrap gap-3 mt-2">
+      {news[1].tag && news[1].tag.split(',').map((tags, index) => (
+        <span
+          key={index}
+          className="text-lg text-gray-700 font-medium underline"
+        >
+          {tags.trim()}
+        </span>
+      ))}
+    </div>
+  </div>
+)}
                     <br></br>
-                    <img src={`https://petstream.in${news[1].file}`} alt="" className="w-full h-48 object-cover rounded-md mb-3" />
-
+                     {news?.[1]?.file?.length > 0 && (
+  <img
+    src={`https://petstream.in${JSON.parse(news[1].file)[0]}`}
+    alt="News"
+    className="w-full h-80 object-cover rounded-md mb-4 transition-transform duration-300 ease-in-out transform hover:scale-105"
+  />
+)}
                   </article>
                 )}
               </div>
@@ -150,19 +207,52 @@ const LatestNews = () => {
                   const formattedDate = new Date(item.published_date).toLocaleDateString();
                   const isExpanded = expandedItems.includes(item.id);
                   const isLong = item.content?.length > 180;
+                  let imageUrl = null;
+  try {
+    // Parse stringified JSON into array
+    const files = JSON.parse(item.file);
+
+    if (Array.isArray(files)) {
+      // Pick the first image file only (ignore videos/audio)
+      const firstImage = files.find(f =>
+        /\.(jpe?g|png|gif|webp)$/i.test(f)
+      );
+      if (firstImage) {
+        imageUrl = `https://petstream.in${firstImage}`;
+      }
+    }
+  } catch (err) {
+    console.error("Error parsing file field:", item.file, err);
+  }
 
                   return (
                     <article key={item.id} className="border rounded-md shadow hover:shadow-lg transition p-4 bg-white">
-                      <img src={`https://petstream.in${item.file}`} alt="" className="w-full h-48 object-cover rounded-md mb-3" />
+                      {item.category && (
+  <div className="flex items-center gap-3 mb-2">
+    {/* Bigger Circle */}
+    <span
+      className={`w-4 h-4 rounded-full inline-block ${getCategoryColor(
+        item.category
+      )}`}
+    ></span>
+    {/* Bigger Font */}
+    <span className="text-lg font-semibold text-gray-800">
+      {item.category}
+    </span>
+  </div>
+)}
+
+
+                      
                       <Link to={`/newsroom/news/detail/${item.id}`}>
-                      <h2 className="text-3xl font-bold text-gray-800 mb-2 hover:text-blue-600 transition">{item.headline || 'Untitled News'}</h2>
+                      <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">
+  {item.headline && item.headline.length > 30 
+    ? item.headline.substring(0, 100)
+    : item.headline || "Untitled News"}
+</h2>
                       </Link>
                       <p className="text-gray-500 text-sm mb-2">{formattedDate}</p>
-                      {item.category && (
-                        <div className={`inline-block mb-2 px-3 py-1 text-xs font-semibold rounded-full ${getCategoryColor(item.category)}`}>
-                          {item.category}
-                        </div>
-                      )}
+                      
                       <div className="text-gray-700 text-sm whitespace-pre-line">
                         {isExpanded || !isLong
                           ? item.content
@@ -176,6 +266,26 @@ const LatestNews = () => {
                           </button>
                         )}
                       </div>
+                      {(item.tag) && (
+                      <div className="mb-4">
+                        <span className="text-base text-gray-700 font-semibold underline">Tags  :</span>
+                        <div className="inline-flex flex-wrap gap-3 mt-2">
+                          {item.tag && item.tag.split(',').map((tags, index) => (
+                            <span
+                              key={index}
+                              className="text-lg text-gray-700 font-medium underline"
+                            >
+                              {tags.trim()}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    <img
+        src={imageUrl}
+        alt="news-img"
+        className="w-full h-80 object-cover rounded-md mb-4 transition-transform duration-300 ease-in-out transform hover:scale-105"
+      />
                     </article>
                   );
                 })}
