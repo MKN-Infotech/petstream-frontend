@@ -261,7 +261,7 @@ const DetailPage = () => {
                   <div className="relative overflow-hidden rounded-lg shadow-lg bg-gray-100">
                     <div className="relative group">
                       <img
-                        src={`http://localhost:5000${images[currentImageIndex]}`}
+                        src={`https://petstream.in${images[currentImageIndex]}`}
                         alt={`News image ${currentImageIndex + 1}`}
                         className="w-full h-96 object-cover cursor-pointer transition-transform duration-300 group-hover:scale-105"
                         onClick={openImageModal}
@@ -360,7 +360,7 @@ const DetailPage = () => {
                           className="w-full h-64 object-cover"
                           preload="metadata"
                         >
-                          <source src={`http://localhost:5000${video}`} type="video/mp4" />
+                          <source src={`https://petstream.in${video}`} type="video/mp4" />
                           Your browser does not support the video tag.
                         </video>
                       </div>
@@ -391,7 +391,7 @@ const DetailPage = () => {
                               className="w-full mt-2"
                               preload="metadata"
                             >
-                              <source src={`http://localhost:5000${audio}`} type="audio/mpeg" />
+                              <source src={`https://petstream.in${audio}`} type="audio/mpeg" />
                               Your browser does not support the audio tag.
                             </audio>
                           </div>
@@ -423,7 +423,7 @@ const DetailPage = () => {
 
             {/* Modal Image */}
             <img
-              src={`http://localhost:5000${images[currentImageIndex]}`}
+              src={`https://petstream.in${images[currentImageIndex]}`}
               alt={`News image ${currentImageIndex + 1} - Full size`}
               className="max-w-full max-h-full object-contain"
             />
