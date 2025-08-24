@@ -20,7 +20,9 @@ const sectionConfig = {
     fields: [
       { key: 'title',        label: 'Title',         type: 'text' },
       { key: 'description',  label: 'Description',   type: 'text' },
-      { key: 'file',         label: 'Image File',    type: 'file' },
+      { key: 'file',           label: 'Image File',     type: 'file', multiple: true },
+      { key: 'tag',        label: 'Tag',         type: 'text' },
+      { key: 'category',        label: 'Category',         type: 'text' },
       { key: 'status',       label: 'Status',        type: 'status', options: ['Active','Draft','Archived'] },
       { key: 'created_date', label: 'Created Date',  type: 'date' }
     ]
@@ -33,6 +35,8 @@ const sectionConfig = {
       { key: 'title',        label: 'Title',        type: 'text' },
       { key: 'description',  label: 'Description',  type: 'text' },
       { key: 'file',         label: 'Image File',   type: 'file' },
+      { key: 'tag',        label: 'Tag',         type: 'text' },
+      { key: 'category',        label: 'Category',         type: 'text' },
       { key: 'views',        label: 'Views',        type: 'number' },
       { key: 'publish_date', label: 'Publish Date', type: 'date' }
     ]
@@ -44,7 +48,9 @@ const sectionConfig = {
     fields: [
       { key: 'headline',       label: 'Headline',       type: 'text' },
       { key: 'content',        label: 'Content',        type: 'text' },
-      { key: 'file',           label: 'Image File',     type: 'file' },
+      { key: 'file',           label: 'Image File',     type: 'file', multiple: true },
+      { key: 'tag',        label: 'Tag',         type: 'text' },
+      { key: 'category',        label: 'Category',         type: 'text' },
       { key: 'published_date', label: 'Published Date', type: 'date' }
     ]
   },
@@ -56,6 +62,8 @@ const sectionConfig = {
       { key: 'title',      label: 'Title',      type: 'text' },
       { key: 'content',    label: 'Content',   type: 'text' },
       { key: 'file',       label: 'Image File', type: 'file' },
+      { key: 'tag',        label: 'Tag',         type: 'text' },
+      { key: 'category',        label: 'Category',         type: 'text' },
       { key: 'event_date', label: 'Event Date', type: 'date' },
       { key: 'status',     label: 'Status',     type: 'text' }
     ]
@@ -90,7 +98,7 @@ export default function AdminDashboard() {
   const [modalType, setModalType]             = useState('create'); // create | edit | view
   const [formData, setFormData]               = useState({});
   const [selectedItem, setSelectedItem]       = useState(null);
-  const [selectedFile, setSelectedFile]       = useState(null); // Add this for file handling
+  const [selectedFiles, setSelectedFiles]     = useState([]); // Changed to array for multiple files
 
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
@@ -147,21 +155,21 @@ export default function AdminDashboard() {
     setModalType('create');
     setSelectedItem(null);
     setFormData(getEmptyForm());
-    setSelectedFile(null); // Reset file selection
+    setSelectedFiles([]); // Reset file selection
     setShowModal(true);
   }
   function handleEdit(item) {
     setModalType('edit');
     setSelectedItem(item);
     setFormData(item);
-    setSelectedFile(null); // Reset file selection for edit
+    setSelectedFiles([]); // Reset file selection for edit
     setShowModal(true);
   }
   function handleView(item) {
     setModalType('view');
     setSelectedItem(item);
     setFormData(item);
-    setSelectedFile(null);
+    setSelectedFiles([]);
     setShowModal(true);
   }
 
@@ -177,18 +185,19 @@ export default function AdminDashboard() {
     }
   }
 
-  // Fixed handleChange function to properly handle files
+  // Fixed handleChange function to properly handle multiple files
   function handleChange(e) {
     const { name, value, type, files } = e.target;
     
     if (type === 'file') {
-      setSelectedFile(files[0]); // Store the selected file
+      // Convert FileList to Array and store all selected files
+      setSelectedFiles(Array.from(files));
     } else {
       setFormData(prev => ({ ...prev, [name]: value }));
     }
   }
 
-  // Fixed handleSubmit function
+  // Fixed handleSubmit function for multiple files
   async function handleSubmit(e) {
     e.preventDefault();
     const cfg = sectionConfig[activeSection];
@@ -199,12 +208,18 @@ export default function AdminDashboard() {
       // Append all form fields to FormData
       cfg.fields.forEach(field => {
         if (field.type === 'file') {
-          // Only append file if one is selected
-          if (selectedFile) {
-            data.append(field.key, selectedFile);
+          if (selectedFiles && selectedFiles.length > 0) {
+            if (field.multiple) {
+              // For multiple file upload, append each file
+              selectedFiles.forEach(file => {
+                data.append(field.key, file);
+              });
+            } else {
+              // For single file upload, append only the first file
+              data.append(field.key, selectedFiles[0]);
+            }
           }
         } else {
-          // Append other form data
           data.append(field.key, formData[field.key] || '');
         }
       });
@@ -234,7 +249,7 @@ export default function AdminDashboard() {
         );
       }
       setShowModal(false);
-      setSelectedFile(null); // Clear file selection after successful submit
+      setSelectedFiles([]); // Clear file selection after successful submit
     } catch (err) {
       console.error('Submit error:', err);
       alert('Submit failed: ' + (err.response?.data?.message || err.message));
@@ -295,7 +310,10 @@ export default function AdminDashboard() {
                                 title={`Full path: ${val}`}
                                 onClick={() => handleView(item)}
                               >
-                                {truncateText(getFileName(val), 15)}
+                                {f.multiple && Array.isArray(val) 
+                                  ? `${val.length} files`
+                                  : truncateText(getFileName(val), 15)
+                                }
                               </span>
                             </div>
                           ) : (
@@ -483,7 +501,7 @@ export default function AdminDashboard() {
                 {cfg.fields.map(f => (
                   <div key={f.key}>
                     <label className="block text-sm font-medium mb-2 text-gray-700" htmlFor={f.key}>
-                      {f.label}
+                      {f.label} {f.multiple && '(Multiple files allowed)'}
                     </label>
 
                     {f.type === 'status' ? (
@@ -520,31 +538,56 @@ export default function AdminDashboard() {
                           type="file"
                           onChange={handleChange}
                           disabled={modalType === 'view'}
+                          multiple={f.multiple} 
                           accept="image/*"
                           className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         />
-                        {selectedFile && (
-                          <div className="flex items-center space-x-2 p-2 bg-green-50 border border-green-200 rounded-md">
-                            <Image className="w-4 h-4 text-green-600" />
-                            <p className="text-sm text-green-700 font-medium">
-                              Selected: {selectedFile.name}
+                        
+                        {/* Show selected files */}
+                        {selectedFiles.length > 0 && (
+                          <div className="space-y-2">
+                            <p className="text-sm font-medium text-green-700">
+                              Selected Files ({selectedFiles.length}):
                             </p>
+                            <div className="max-h-24 overflow-y-auto space-y-1">
+                              {selectedFiles.map((file, index) => (
+                                <div key={index} className="flex items-center space-x-2 p-2 bg-green-50 border border-green-200 rounded-md">
+                                  <Image className="w-4 h-4 text-green-600" />
+                                  <span className="text-sm text-green-700 font-medium">
+                                    {file.name}
+                                  </span>
+                                  <span className="text-xs text-green-600">
+                                    ({(file.size / 1024).toFixed(1)} KB)
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         )}
-                        {modalType !== 'create' && formData[f.key] && !selectedFile && (
-                          <div className="flex items-center space-x-2 p-2 bg-blue-50 border border-blue-200 rounded-md">
-                            <Image className="w-4 h-4 text-blue-600" />
-                            <p className="text-sm text-blue-700">
-                              Current: {getFileName(formData[f.key])}
-                            </p>
-                          </div>
-                        )}
-                        {modalType === 'view' && formData[f.key] && (
-                          <div className="flex items-center space-x-2 p-2 bg-gray-50 border border-gray-200 rounded-md">
-                            <Image className="w-4 h-4 text-gray-600" />
-                            <p className="text-sm text-gray-700">
-                              Image: {getFileName(formData[f.key])}
-                            </p>
+                        
+                        {/* Show current files in edit/view mode */}
+                        {modalType !== 'create' && formData[f.key] && selectedFiles.length === 0 && (
+                          <div className="space-y-2">
+                            <p className="text-sm font-medium text-blue-700">Current Files:</p>
+                            {Array.isArray(formData[f.key]) ? (
+                              <div className="max-h-24 overflow-y-auto space-y-1">
+                                {formData[f.key].map((filePath, index) => (
+                                  <div key={index} className="flex items-center space-x-2 p-2 bg-blue-50 border border-blue-200 rounded-md">
+                                    <Image className="w-4 h-4 text-blue-600" />
+                                    <span className="text-sm text-blue-700">
+                                      {getFileName(filePath)}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <div className="flex items-center space-x-2 p-2 bg-blue-50 border border-blue-200 rounded-md">
+                                <Image className="w-4 h-4 text-blue-600" />
+                                <span className="text-sm text-blue-700">
+                                  {getFileName(formData[f.key])}
+                                </span>
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
@@ -570,7 +613,7 @@ export default function AdminDashboard() {
             <div className="px-6 py-4 border-t border-gray-200 flex justify-end space-x-3">
               <button 
                 type="button" 
-                onClick={()=>{setShowModal(false); setSelectedFile(null);}} 
+                onClick={()=>{setShowModal(false); setSelectedFiles([]);}} 
                 className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
               >
                 Cancel
