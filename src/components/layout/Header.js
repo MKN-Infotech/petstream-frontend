@@ -60,9 +60,9 @@ const Header = () => {
       hasDropdown: true,
       dropdownItems: [
         { title: 'Products Update ', path: '/newsroom/products' },
-        { title: 'Industry Information Exchange', path: '/newsroom/industry' },
-        { title: 'Latest News', path: '/newsroom/news' },
-        { title: 'Latest Events', path: '/newsroom/events' }
+        
+        { title: 'Latest News && Events', path: '/newsroom/news' },
+        
       ]
     },
     { title: 'Contact', path: '/contact' }
