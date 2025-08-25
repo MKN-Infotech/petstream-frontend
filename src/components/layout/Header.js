@@ -61,7 +61,7 @@ const Header = () => {
       dropdownItems: [
         { title: 'Products Update ', path: '/newsroom/products' },
         
-        { title: 'Latest News && Events', path: '/newsroom/news' },
+        { title: 'Latest News & Events', path: '/newsroom/news' },
         
       ]
     },
