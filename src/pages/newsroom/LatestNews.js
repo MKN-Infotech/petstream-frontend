@@ -113,14 +113,7 @@ const LatestNews = () => {
                         ) : (
                           <span>{news[0].content.replace(/<[^>]+>/g, "").substring(0, 250)}...</span>
                         )}
-                        {news[0].content?.length > 250 && (
-                          <button
-                            onClick={() => toggleReadMore(news[0].id)}
-                            className="ml-2 text-blue-600 hover:underline text-sm"
-                          >
-                            {expandedItems.includes(news[0].id) ? "Show Less" : "Read More"}
-                          </button>
-                        )}
+                        
                       </p>
 
                      {(news[0].tag) && (
@@ -166,19 +159,17 @@ const LatestNews = () => {
                     <div className="text-sm text-gray-500 mb-2">
                       {new Date(news[1].published_date).toLocaleDateString()}
                     </div>
-                    <p className="text-gray-700 text-sm">
-                      {expandedItems.includes(news[1].id)
-                        ? news[1].content
-                        : `${news[1].content?.substring(0, 120)}...`}
-                      {news[1].content?.length > 120 && (
-                        <button
-                          onClick={() => toggleReadMore(news[1].id)}
-                          className="ml-2 text-blue-600 hover:underline text-sm"
-                        >
-                          {expandedItems.includes(news[1].id) ? 'Show Less' : 'Read More'}
-                        </button>
-                      )}
-                    </p>
+                   
+                    <p className="text-gray-700">
+                        {expandedItems.includes(news[1].id) ? (
+                          <span
+                            dangerouslySetInnerHTML={{ __html: news[1].content }}
+                          />
+                        ) : (
+                          <span>{news[1].content.replace(/<[^>]+>/g, "").substring(0, 250)}...</span>
+                        )}
+                        
+                      </p>
                     {(news[1].tag) && (
   <div className="mb-4">
     <span className="text-base text-gray-700 font-semibold underline">Tags  :</span>
@@ -259,18 +250,16 @@ const LatestNews = () => {
                       <p className="text-gray-500 text-sm mb-2">{formattedDate}</p>
                       
                       <div className="text-gray-700 text-sm whitespace-pre-line">
-                        {isExpanded || !isLong
-                          ? item.content
-                          : `${item.content?.substring(0, 180)}...`}
-                        {isLong && (
-                          <button
-                            onClick={() => toggleReadMore(item.id)}
-                            className="ml-2 text-blue-600 hover:underline text-sm"
-                          >
-                            {isExpanded ? 'Show Less' : 'Read More'}
-                          </button>
+                                                {expandedItems.includes(item.id) ? (
+                          <span
+                            dangerouslySetInnerHTML={{ __html: item.content }}
+                          />
+                        ) : (
+                          <span>{item.content.replace(/<[^>]+>/g, "").substring(0, 250)}...</span>
                         )}
+                        
                       </div>
+                      
                       {(item.tag) && (
                       <div className="mb-4">
                         <span className="text-base text-gray-700 font-semibold underline">Tags  :</span>
