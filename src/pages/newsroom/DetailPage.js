@@ -232,8 +232,8 @@ const DetailPage = () => {
                 {news.author && <> • By {news.author}</>}
               </div>
               
-              <p className="text-gray-700 mb-4">
-                {news.content}
+              <p className="text-gray-700 mb-4" dangerouslySetInnerHTML={{ __html: news.content }}>
+               
               </p>
 
               {(news.tag) && (
