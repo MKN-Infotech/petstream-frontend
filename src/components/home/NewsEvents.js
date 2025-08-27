@@ -26,8 +26,8 @@ const NewsEventsWidget = () => {
     const fetchAll = async () => {
       try {
         const [newsRes, eventsRes] = await Promise.all([
-          api.get('/api/news'),    // Changed from axios.get('http://localhost:5000/api/news')
-          api.get('/api/events'),  // Changed from axios.get('http://localhost:5000/api/events')
+          api.get('/api/news'),    // Changed from axios.get('https://petstream.in/api/news')
+          api.get('/api/events'),  // Changed from axios.get('https://petstream.in/api/events')
         ]);
         setRecentNews(newsRes.data);
         setUpcomingEvents(eventsRes.data);
@@ -89,16 +89,7 @@ const NewsEventsWidget = () => {
           >
             Latest News ({recentNews.length})
           </button>
-          <button
-            onClick={() => setActiveTab('events')}
-            className={`flex-1 py-3 px-4 text-sm font-semibold transition-all duration-200 ${
-              activeTab === 'events'
-                ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-            }`}
-          >
-            Events ({upcomingEvents.length})
-          </button>
+         
         </div>
 
         {/* Content */}
@@ -191,9 +182,7 @@ const NewsEventsWidget = () => {
             <Link to="/newsroom/news" className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-3 rounded-lg text-sm font-semibold transition-colors">
               All News
             </Link>
-            <Link to="/newsroom/events" className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-3 rounded-lg text-sm font-semibold transition-colors">
-              All Events
-            </Link>
+            
           </div>
         </div>
       </div>
