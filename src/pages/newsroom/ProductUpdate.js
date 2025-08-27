@@ -133,14 +133,7 @@ const ProductsUpdate = () => {
   ) : (
    <span>{products[0].description.replace(/<[^>]+>/g, "").substring(0, 250)}...</span>
   )}
-  {products[0].description?.length > 250 && (
-    <button
-      onClick={() => toggleReadMore(products[0].id)}
-      className="ml-2 text-blue-600 hover:underline text-sm"
-    >
-      {expandedItems.includes(products[0].id) ? "Show Less" : "Read More"}
-    </button>
-  )}
+  
 </p>
                     {(products[0].tag) && (
   <div className="mb-4">
@@ -171,30 +164,26 @@ const ProductsUpdate = () => {
                 {/* Second Product - Compact Right Column */}
                  {products[1] && (
                                   <article key={products[1].id} className="lg:w-1/3 bg-white border shadow p-4 rounded-md">
-                                     {products[0].category && (
+                                     {products[1].category && (
                                       <div className={`inline-block mb-4 px-3 py-1 text-xs font-semibold rounded-full ${getCategoryColor(products[1].category)}`}>
                                         {products[1].category}
                                       </div>
                                     )}
                                     <Link to={`/newsroom/products/${products[1].id}`}>
-                                    <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">{products[1].headline || 'Untitled products'}</h2>
+                                    <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">
+                                      {products[1].title || 'Untitled products'}</h2>
                                     </Link>
-                                    <div className="text-sm text-gray-500 mb-2">
-                                      {new Date(products[1].published_date).toLocaleDateString()}
-                                    </div>
-                                    <p className="text-gray-700 text-sm">
-                                      {expandedItems.includes(products[1].id)
-                                        ? products[1].description
-                                        : `${products[1].description?.substring(0, 120)}...`}
-                                      {products[1].description?.length > 120 && (
-                                        <button
-                                          onClick={() => toggleReadMore(products[1].id)}
-                                          className="ml-2 text-blue-600 hover:underline text-sm"
-                                        >
-                                          {expandedItems.includes(products[1].id) ? 'Show Less' : 'Read More'}
-                                        </button>
-                                      )}
-                                    </p>
+                                    
+                                    <p className="text-gray-700">
+  {expandedItems.includes(products[1].id) ? (
+    <span
+      dangerouslySetInnerHTML={{ __html: products[1].description }}
+    />
+  ) : (
+   <span>{products[1].description.replace(/<[^>]+>/g, "").substring(0, 250)}...</span>
+  )}
+  
+</p>
                                     {(products[1].tag) && (
                   <div className="mb-4">
                     <span className="text-base text-gray-700 font-semibold underline">Tags  :</span>
@@ -265,28 +254,25 @@ const ProductsUpdate = () => {
               
               
                                     
-                                    <Link to={`/newsroom/news/detail/${item.id}`}>
+                                    <Link to={`/newsroom/products/${item.id}`}>
                                     <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">
-                {item.headline && item.headline.length > 30 
-                  ? item.headline.substring(0, 100)
-                  : item.headline || "Untitled News"}
+                {item.title && item.title.length > 30 
+                  ? item.title.substring(0, 100)
+                  : item.title || "Untitled News"}
               </h2>
                                     </Link>
-                                    <p className="text-gray-500 text-sm mb-2">{formattedDate}</p>
+                                    
                                     
                                     <div className="text-gray-700 text-sm whitespace-pre-line">
-                                      {isExpanded || !isLong
-                                        ? item.content
-                                        : `${item.content?.substring(0, 180)}...`}
-                                      {isLong && (
-                                        <button
-                                          onClick={() => toggleReadMore(item.id)}
-                                          className="ml-2 text-blue-600 hover:underline text-sm"
-                                        >
-                                          {isExpanded ? 'Show Less' : 'Read More'}
-                                        </button>
-                                      )}
-                                    </div>
+                                                {expandedItems.includes(item.id) ? (
+                          <span
+                            dangerouslySetInnerHTML={{ __html: item.description }}
+                          />
+                        ) : (
+                          <span>{item.description.replace(/<[^>]+>/g, "").substring(0, 250)}...</span>
+                        )}
+                        
+                      </div>
                                     {(item.tag) && (
                                     <div className="mb-4">
                                       <span className="text-base text-gray-700 font-semibold underline">Tags  :</span>
