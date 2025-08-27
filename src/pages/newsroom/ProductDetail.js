@@ -237,8 +237,8 @@ const ProductDetail = () => {
                 {news.author && <> • By {news.author}</>}
               </div>
               
-              <p className="text-gray-700 mb-4">
-                {news.description}
+              <p className="text-gray-700 mb-4"  dangerouslySetInnerHTML={{ __html: news.description }}>
+                
               </p>
 
               {(news.tag) && (
