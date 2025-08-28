@@ -122,6 +122,9 @@ const ProductsUpdate = () => {
                       {products[0].title || 'Untitled Product'}  
                     </h2>
                     </Link>
+                     <div className="text-sm text-gray-500 mb-2">
+                      {new Date(products[0].created_date).toLocaleDateString()}
+                    </div>
                    
                     
 
@@ -173,6 +176,9 @@ const ProductsUpdate = () => {
                                     <h2 className="text-3xl font-bold text-gray-800 mb-2 no-underline hover:underline transition">
                                       {products[1].title || 'Untitled products'}</h2>
                                     </Link>
+                                    <div className="text-sm text-gray-500 mb-2">
+                      {new Date(products[1].created_date).toLocaleDateString()}
+                    </div>
                                     
                                     <p className="text-gray-700">
   {expandedItems.includes(products[1].id) ? (
@@ -261,6 +267,9 @@ const ProductsUpdate = () => {
                   : item.title || "Untitled News"}
               </h2>
                                     </Link>
+                                    <div className="text-sm text-gray-500 mb-2">
+                      {new Date(item.created_date).toLocaleDateString()}
+                    </div>
                                     
                                     
                                     <div className="text-gray-700 text-sm whitespace-pre-line">
