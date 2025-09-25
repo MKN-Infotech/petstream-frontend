@@ -135,13 +135,24 @@ const LatestNews = () => {
 
 
                     <br></br>
-                    {news?.[0]?.file?.length > 0 && (
-  <img
-    src={`https://petstream.in${JSON.parse(news[0].file)[0]}`}
-    alt="News"
-    className="w-full h-80 object-cover rounded-md mb-4 transition-transform duration-300 ease-in-out transform hover:scale-105"
-  />
-)}
+
+
+{news?.[0]?.file && (() => {
+  let files = [];
+  try {
+    files = Array.isArray(news[0].file) ? news[0].file : JSON.parse(news[0].file);
+  } catch (e) {
+    console.error("Invalid file format", e);
+  }
+  return files.length > 0 ? (
+    <img
+      src={`https://petstream.in${files[0]}`}
+      alt="News"
+      className="w-full h-80 object-cover rounded-md mb-4 transition-transform duration-300 ease-in-out transform hover:scale-105"
+    />
+  ) : null;
+})()}
+
                   </article>
                 )}
 
@@ -186,9 +197,15 @@ const LatestNews = () => {
   </div>
 )}
                     <br></br>
-                     {news?.[1]?.file?.length > 0 && (
+                     {news?.[1]?.file && news[1].file.length > 0 && (
   <img
-    src={`https://petstream.in${JSON.parse(news[1].file)[0]}`}
+    src={`https://petstream.in${(() => {
+      try {
+        return JSON.parse(news[1].file)[0];
+      } catch {
+        return "";
+      }
+    })()}`}
     alt="News"
     className="w-full h-80 object-cover rounded-md mb-4 transition-transform duration-300 ease-in-out transform hover:scale-105"
   />
